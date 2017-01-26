@@ -1,0 +1,71 @@
+<div>
+	<form ng-submit="searchCheckIn()" >
+
+        <div class="text-center">
+        			<h2 >Check In</h2>
+<br>
+ <div class="radio-inline">
+              <label><input type="radio" name="optradio"    ng-model="checkIN.contains" ng-required="!checkIN.contains" value="exact">Exact</label>
+            </div>
+			<div class="radio-inline ">
+		      <label><input type="radio" name="optradio" ng-model="checkIN.contains" ng-required="!checkIN.contains" value="contains">Contains</label>
+		    </div>
+		    <div class="radio-inline">
+		      <label><input type="radio" name="optradio"  ng-model="checkIN.contains" ng-required="!checkIN.contains" value="start">Start With</label>
+		    </div>
+		   
+		</div>
+	
+		 <div class="input-group" id="adv-search">
+             
+                <input type="text" class="form-control pad" ng-required="!(checkIN.isbn|| checkIN.card_no||checkIN.bname)" ng-model="checkIN.isbn" placeholder="Search for ISBN" />
+                <input type="text" class="form-control pad" ng-required="!(checkIN.isbn|| checkIN.card_no||checkIN.bname)" ng-model="checkIN.card_no" placeholder="Search for Card NO" />
+                <input type="text" class="form-control pad" ng-required="!(checkIN.isbn|| checkIN.card_no||checkIN.bname)" ng-model="checkIN.bname" placeholder="Search for Borrower" />
+            
+            </div>
+<button type="submit" id="search" class="btn  btn-info">Search</button>
+ 	</form>	
+ 	<div ng-show="bookData.length===0" class="text-center"><br>NO Loan Found</div>
+<br>
+ 	<form ng-show="bookData.length>0" ng-submit="checkIn()"> 
+ 	 <table  class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th ng-click="sort('isbn')">ISBN
+                                     <span class="glyphicon sort-icon" ng-show="sortKey=='isbn'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                                    <th ng-click="sort('title')">Title
+                                     <span class="glyphicon sort-icon" ng-show="sortKey=='title'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                                    <th >Card No</th>
+                                    <th >Borrower Name</th>
+                                    <th >Branch ID</th>
+                                    <th >Due Date</th>
+                                    <th ></th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr dir-paginate="bk in bookData|orderBy:sortKey:reverse|itemsPerPage:10">
+                                    <td>{{bk.isbn}}</td>
+                                    <td>{{bk.title}}</td>
+                                    <td>{{bk.card_no}}</td>
+                                    <td>{{bk.fname}} {{bk.lname}}</td>
+                                 
+                                    <td>{{bk.branch_id}}</td>
+                                    <td>{{bk.due_date|date:'MM/dd/yyyy'}}</td>
+                                    <td><input type="checkbox" name="select" value="bk.select" ng-model="bk.select">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> 
+                        <button type="submit" id="search" class="btn  btn-info">Check-In</button>
+ 	</form>	
+<div  class="text-center"><br><h4>{{checkInMessage}}</h4></div>
+                          <dir-pagination-controls
+       max-size="50"
+       direction-links="true"
+       boundary-links="true" >
+    </dir-pagination-controls>
+ 	
+</div>
+
+           

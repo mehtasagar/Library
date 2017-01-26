@@ -1,0 +1,66 @@
+<div>
+	<form ng-submit="searchLib()" >
+<br>
+        <div class="text-center" >
+              <div class="radio-inline">
+              <label><input type="radio" name="optradio"   ng-model="formData.contains" ng-required="!formData.contains" value="exact">Exact</label>
+            </div>
+			<div class="radio-inline ">
+		      <label><input type="radio" name="optradio" ng-model="formData.contains" ng-required="!formData.contains" value="contains">Contains</label>
+		    </div>
+		    <div class="radio-inline">
+		      <label><input type="radio" name="optradio"  ng-model="formData.contains" ng-required="!formData.contains" value="start">Start With</label>
+		    </div>
+		  
+		</div>
+
+		 <div class="input-group" id="adv-search">
+                <input type="text" class="form-control pad" ng-required="!(formData.book || formData.isbn||formData.author)" ng-model="formData.book" placeholder="Search for book" />
+                <input type="text" class="form-control pad" ng-required="!(formData.book || formData.isbn ||formData.author)" ng-model="formData.isbn" placeholder="Search for ISBN" />
+                <input type="text" class="form-control pad" ng-required="!(formData.book || formData.isbn ||formData.author)" ng-model="formData.author" placeholder="Search for author" />
+              
+            </div>
+    <button type="submit" id="search" class="btn  btn-info">Search</button>
+ 	</form>	
+   <div ng-show="books.length===0" class="text-center"><br>NO Books Found</div> 
+ 	 <table ng-show="books.length>0" class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th ng-click="sort('isbn')">ISBN
+                                     <span class="glyphicon sort-icon" ng-show="sortKey=='isbn'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                                    <th ng-click="sort('title')">Title
+                                     <span class="glyphicon sort-icon" ng-show="sortKey=='title'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                                    <th ng-click="sort('id')">Author</th>
+                                    <th >Branch ID</th>
+                                    <th >Branch Name</th>
+                                    <th >Total Copies</th>
+                                    <th >Remaining Copies</th>
+                                    <th ></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr dir-paginate="bk in books|orderBy:sortKey:reverse|itemsPerPage:10">
+                                    <td>{{bk.isbn}}</td>
+                                    <td>{{bk.title}}</td>
+                                    <td>{{bk.full_name}}</td>
+                                    <td>{{bk.branch_id}}</td>
+                                    <td>{{bk.branch_name}}</td>
+                                    <td>{{bk.no_of_copy}}</td>
+                                    <td>{{bk.remaining_copy}}</td>
+                                    <td><a href="#checkOut/{{bk.isbn}}/{{bk.branch_id}}/{{bk.remaining_copy}}/{{bk.title}}" ng-show="bk.remaining_copy>0" data-toggle="tooltip" title="Check Out"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+                                      <span ng-show="bk.remaining_copy===0" class="glyphicon glyphicon-remove" aria-hidden="true" data-toggle="tooltip" title="Not Available!"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> 
+
+                        <div class="text-center">
+                          <dir-pagination-controls
+                           max-size="50"
+                           direction-links="true"
+                           boundary-links="true" >
+                        </dir-pagination-controls>
+                    </div>
+&nbsp;</div>
+
+           
